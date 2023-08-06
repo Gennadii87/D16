@@ -1,25 +1,38 @@
 {% extends 'flatpages/default.html' %}
 
 {% block title %}
-Subscriptions
+Подписки
 {% endblock title %}
 
 {% block content %}
-    {% for category in categories  %}
-        <p>
-            {{ category.name }}
-            <form method="post">
-                {% csrf_token %}
-                <input type="hidden" name="category_id" value="{{ category.id }}" />
+    <div class="categories-container">
+        {% for category in categories %}
+            <div class="category-item">
+                {{ category.name }}
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="category_id" value="{{ category.id }}" />
 
-                {% if category.user_subscribed %}
-                    <button disabled>Подписаться</button>
-                    <button name="action" value="unsubscribe">Отписаться</button>
-                {% else %}
-                    <button name="action" value="subscribe">Подписаться</button>
-                    <button disabled>Отписаться</button>
-                {% endif %}
-            </form>
-        </p>
-    {% endfor %}
+                    {% if category.user_subscribed %}
+                        <button disabled>Подписаться</button>
+                        <button name="action" value="unsubscribe">Отписаться</button>
+                    {% else %}
+                        <button name="action" value="subscribe">Подписаться</button>
+                        <button disabled>Отписаться</button>
+                    {% endif %}
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+<style>
+.categories-container {
+    display: flex;
+    flex-wrap: wrap; /* Если элементов много и не хватает ширины экрана, переносить на следующую строку */
+}
+
+.category-item {
+    margin-right: 25px; /* Добавьте отступы между элементами для отделения их */
+    margin-bottom: 25px;
+}
+</style>
 {% endblock content %}
