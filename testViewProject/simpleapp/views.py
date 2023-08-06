@@ -152,20 +152,20 @@ def comments(request):
     # Получаем все продукты, созданные текущим пользователем (автором)
     products = Product.objects.filter(author=request.user.author)
 
-    # Получаем все комментарии, связанные с этими продуктами, и сортируем их по дате создания
-    comments = Comment.objects.filter(product__in=products).order_by('created_at')
-    ordering = 'created_at'
+    # Получаем все комментарии, связанные с этими продуктами, а также аннотируем максимальную дату создания отклика
+    comments = Comment.objects.filter(product__in=products) \
+                     .annotate(last_comment_date=Max('created_at')) \
+                     .order_by('-last_comment_date')
+
     # Обработка фильтрации
-    form = CommentFilterForm(request.GET)
-    comments = Comment.objects.all()
+    form = CommentFilterForm(request.GET)  # Передаем данные из запроса в форму
 
     if form.is_valid():
         product = form.cleaned_data['product']
         if product:
             comments = comments.filter(product=product)
     else:
-        form = CommentFilterForm()
-        comments = Comment.objects.filter(product__author__authorUser=request.user)
+        comments = comments.filter(product__author__authorUser=request.user)
 
     return render(request, 'comments_page.html', {'comments': comments, 'form': form})
 
