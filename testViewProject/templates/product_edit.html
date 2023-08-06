@@ -1,13 +1,77 @@
 {% extends 'flatpages/default.html' %}
 
 {% block content %}
-<h1>Товар</h1>
+    <h1>Добавить товар для аукциона</h1>
 
-<hr>
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.media }}
-    {{ form.as_p }}
-    <input type="submit" value="Save" />
-</form>
+    <hr>
+    <table>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.media }}
+            <tr>
+                <td>{{ form.icon.label_tag }}</td>
+                <td>{{ form.icon }}</td>
+            </tr>
+            <!-- Поле "Название" -->
+            <tr>
+                <td>{{ form.name.label_tag }}</td>
+                <td>{{ form.name }}</td>
+            </tr>
+
+            <!-- Поле "Описание" -->
+            <tr>
+                <td>{{ form.description.label_tag }}</td>
+                <td>{{ form.description }}</td>
+            </tr>
+
+            <!-- Поле "Цена" -->
+            <tr>
+                <td>{{ form.price.label_tag }}</td>
+                <td>{{ form.price }}</td>
+            </tr>
+
+            <!-- Поле "Количество" -->
+            <tr>
+                <td>{{ form.quantity.label_tag }}</td>
+                <td>{{ form.quantity }}</td>
+            </tr>
+
+            <!-- Поле "Категория" -->
+            <tr>
+                <td>{{ form.category.label_tag }}</td>
+                <td>{{ form.category }}</td>
+            </tr>
+
+            <!-- Кнопка "Сохранить" -->
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <input type="submit" value="Save" />
+                </td>
+            </tr>
+        </form>
+    </table>
+
+<style>
+    table {
+    border-collapse: collapse; /* Объединить границы ячеек */
+    width: 80%; /* Задаем ширину таблицы (можете установить нужное значение) */
+}
+
+td {
+    padding: 10px; /* Задаем отступы внутри ячеек */
+    border: 1px solid #ddd; /* Задаем границы ячеек */
+}
+
+input[type="submit"] {
+    padding: 5px 10px;
+    background-color: #4CAF50; /* Задаем зеленый цвет фона для кнопки "Save" */
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+/* Изменяем цвет фона кнопки "Save" при наведении */
+input[type="submit"]:hover {
+    background-color: #FF0000; /* Задаем красный цвет фона при наведении на кнопку */
+}
+</style>
 {% endblock content %}
