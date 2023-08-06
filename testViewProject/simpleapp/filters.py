@@ -1,6 +1,6 @@
 from django_filters import FilterSet, filters
-from .models import Product, Category
 from django import forms
+from .models import Product, Category
 
 
 class ProductFilter(FilterSet):
