@@ -47,8 +47,8 @@ Products
     <label for="{{ filterset.form.name__icontains.id_for_label }}"></label>
 <br>
    {% if products %}
-       <table cellpadding="15" cellspacing="0" width="1000" height="500" border="2px" >
-           <tr style="border: 2px solid black;">
+       <table cellpadding="" cellspacing="0" width="" height="" border="" >
+           <tr style="">
                <td><h5>Дата поста</h5></td>
                <td><h5>Автор</h5></td>
                <td><h5>Название</h5></td>
@@ -60,21 +60,27 @@ Products
                 {% if user.is_authenticated %}<td style="text-align: center; vertical-align: middle;"><h5>Действия</h5></td>{% endif %}
            </tr>
 
-           {% for product in products %}
-           <tr style="border: 2px solid black;">
-               <td>{{ product.created_at }}</td>
-               <td>{{ product.author.authorUser.username }} </td>
-               <td>{{ product.name }}</td>
-               <td>{{ product.icon|safe }}</td>
-               <td>{{ product.category.name }}</td>
-               <td style="text-align: center; vertical-align: middle;">{{ product.price|currency }}</td>
-               <td style="text-align: center; vertical-align: middle;">{{ product.quantity|coll }}</td>
-               <td style="text-align: center; vertical-align: middle;"> <a href="{% url 'product_detail' product.pk %}">подробнее</a> </td>
-               {% if user.is_authenticated and user == product.author.authorUser %}<td style="text-align: center; vertical-align: middle;"> <a href="{% url 'product_update' product.pk %}">редактировать </a> <a href="{% url 'product_delete' product.pk %}">удалить </a> </td>{% endif %}
+            {% for product in products %}
+                <tr style="">
+                    <td>{{ product.created_at }}</td>
+                    <td>{{ product.author.authorUser.username }} </td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.icon|safe }}</td>
+                    <td>{{ product.category.name }}</td>
+                    <td style="text-align: center; vertical-align: middle;">{{ product.price|currency }}</td>
+                    <td style="text-align: center; vertical-align: middle;">{{ product.quantity|coll }}</td>
+                    <td style="text-align: center; vertical-align: middle;"> <a href="{% url 'product_detail' product.pk %}">подробнее</a> </td>
+                    {% if user.is_authenticated and user == product.author.authorUser %}
+                    <td style="text-align: center; vertical-align: middle;">
+                        <a href="{% url 'product_update' product.pk %}">редактировать </a>
+                        <a href="{% url 'product_delete' product.pk %}">удалить </a></td>
+                    {% else %}
+                        <td style="text-align: center; vertical-align: middle;">У вас нет прав</td>
+                    {% endif %}
+                </tr>
 
-           </tr>
-           <tr>
-               {% endfor %}
+            {% endfor %}
+
        </table>
    {% else %}
        <h2>Товаров нет!</h2>
@@ -103,4 +109,25 @@ Products
        {% endif %}
    {% endif %}
 
+<style>
+td {
+    padding: 10px 10px 10px 10px; /* Установить отступ внутри ячеек таблицы */
+    font-size: 14px;
+    line-height: 1;
+}
+table {
+    border-collapse: collapse; /* Объединить границы ячеек */
+    width: 100%; /* Задаем ширину таблицы (можете установить нужное значение) */
+}
+td, th {
+    border: 2px solid #000; /* Задаем толщину и цвет границ ячеек */
+    padding: 8px; /* Задаем отступ внутри ячеек */
+    text-align: left; /* Выравнивание текста в ячейках по левому краю (по желанию) */
+    background-color: #f2f2f2;
+}
+/* Убираем границы у первой строки (заголовков) */
+tr:first-child {
+    border-top: none;
+}
+</style>
 {% endblock content %}
