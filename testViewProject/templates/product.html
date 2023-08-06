@@ -1,0 +1,37 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+
+<!-- Название у нас будет Product -->
+{% block title %}
+Product
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
+{% block content %}
+<h3>{{ product.description | safe }}</h3>
+<hr>
+<p>Текущее время: {{ time_now|date:'M d Y H:i' }}</p>
+<hr>
+<a href="/products/">назад</a>
+
+{% if user.is_authenticated %}
+<!-- форма для добавления комментариев -->
+<h4>Добавить отклик или предложить свое</h4>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Отправить</button>
+</form>
+{% endif %}
+<!-- Вывод уже существующих комментариев -->
+{% if product.comments.exists %}
+    <h4>Отклики и предложения</h4>
+    {% for comment in product.comments.all %}
+        <p><strong>{{ comment.user.username }}</strong> ({{ comment.created_at|date:'M d Y H:i' }})</p>
+        <p>{{ comment.text }}</p>
+        <hr>
+    {% endfor %}
+{% else %}
+    <h4>К этому товару еще нет откликов. Вы можете оставить его первый!</h4>
+{% endif %}
+{% endblock content %}

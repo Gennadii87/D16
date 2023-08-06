@@ -1,0 +1,106 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+Products
+{% endblock title %}
+
+{% block content %}
+   <h1>Все товары</h1>
+   <h3>{{ time_now|date:'M d Y H:i' }}</h3>
+
+{# Добавляем форму, которая объединяет набор полей, которые будут отправляться в запросе #}
+<form action="" method="get">
+    <div class="filter-row">
+        <div class="filter-field">
+            {{ filterset.form.name.label_tag }}
+            {{ filterset.form.name }}
+        </div>
+        <br>
+        <div class="filter-field" >
+            {{ filterset.form.description.label_tag }}
+            {{ filterset.form.description }}
+        </div>
+        <div class="filter-field" >
+            {{ filterset.form.price__lt.label_tag }}
+            {{ filterset.form.price__lt }}
+        </div>
+        <br>
+        <div class="filter-field" >
+            {{ filterset.form.price__gt.label_tag }}
+            {{ filterset.form.price__gt }}
+        </div>
+        <br>
+        <div class="filter-field">
+            {{ filterset.form.category.label_tag }}
+            {{ filterset.form.category }}
+        </div>
+    </div>
+    <br>
+    <input type="submit" value="Найти"/>
+</form>
+<form action="" method="get" >
+    {{ filterset.form.non_field_errors }}
+
+    {{ filterset.form.name__icontains.errors }}
+    <label for="{{ filterset.form.name__icontains.id_for_label }}"></label>
+<br>
+   {% if products %}
+       <table cellpadding="15" cellspacing="0" width="1000" height="500" border="2px" >
+           <tr style="border: 2px solid black;">
+               <td><h5>Дата поста</h5></td>
+               <td><h5>Автор</h5></td>
+               <td><h5>Название</h5></td>
+               <td><h5>Аватар</h5></td>
+               <td><h5>Категория</h5></td>
+               <td style="text-align: center; vertical-align: middle;"><h5>Цена</h5></td>
+               <td style="text-align: center; vertical-align: middle;"><h5>Количество</h5></td>
+               <td style="text-align: center; vertical-align: middle;"><h5>Подробное описание</h5></td>
+                {% if user.is_authenticated %}<td style="text-align: center; vertical-align: middle;"><h5>Действия</h5></td>{% endif %}
+           </tr>
+
+           {% for product in products %}
+           <tr style="border: 2px solid black;">
+               <td>{{ product.created_at }}</td>
+               <td>{{ product.author.authorUser.username }} </td>
+               <td>{{ product.name }}</td>
+               <td>{{ product.icon|safe }}</td>
+               <td>{{ product.category.name }}</td>
+               <td style="text-align: center; vertical-align: middle;">{{ product.price|currency }}</td>
+               <td style="text-align: center; vertical-align: middle;">{{ product.quantity|coll }}</td>
+               <td style="text-align: center; vertical-align: middle;"> <a href="{% url 'product_detail' product.pk %}">подробнее</a> </td>
+               {% if user.is_authenticated and user == product.author.authorUser %}<td style="text-align: center; vertical-align: middle;"> <a href="{% url 'product_update' product.pk %}">редактировать </a> <a href="{% url 'product_delete' product.pk %}">удалить </a> </td>{% endif %}
+
+           </tr>
+           <tr>
+               {% endfor %}
+       </table>
+   {% else %}
+       <h2>Товаров нет!</h2>
+   {% endif %}
+
+{# Добавляем пагинацию на страницу #}
+
+   {# Информация о предыдущих страницах #}
+   {% if page_obj.has_previous %}
+       <a href="?{% url_replace page=1 %}">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+
+   {# Информация о следующих страницах #}
+   {% if page_obj.has_next %}
+       <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+
+{% endblock content %}

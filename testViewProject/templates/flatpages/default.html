@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>{% block title %} {% endblock title %}</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        {% load static %}
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+   <div class="container">
+       <a class="navbar-brand" href="/products/">Skill Factory</a>
+       <button class="navbar-toggler" type="button" data-toggle="collapse"
+               data-target="#navbarResponsive"
+               aria-controls="navbarResponsive" aria-expanded="false"
+               aria-label="Toggle navigation">
+           <span class="navbar-toggler-icon"></span>
+       </button>
+       <div class="collapse navbar-collapse" id="navbarResponsive">
+           <ul class="navbar-nav ml-auto">
+               <li class="nav-item active">
+                   <a class="nav-link" href="/admin/">Админ
+                       <span class="sr-only">(админ-панель)</span>
+                   </a>
+               </li>
+              {% if user.is_authenticated %}
+               <li class="nav-item">
+                   <a class="nav-link" href="/products/create/">Добавить товар</a>
+               </li>
+               {% endif %}
+               {% if user.is_authenticated %}
+                {% else %}
+                <!-- Показывать только если пользователь не аутентифицирован -->
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/login/">Вход</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/password/reset/">Не помню пароль</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/signup/">Регистрация</a>
+                </li>
+                {% endif %}
+               {% if user.is_authenticated %}
+               <li class="nav-item">
+                   <a class="nav-link" href="/accounts/logout/">Выход</a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="/products/comments/">Отклики</a>
+               </li>
+
+               <li class="nav-item">
+                   <a class="nav-link" href="/products/subscriptions/">Подписки</a>
+               </li>
+               <li class="nav-item">
+                    <h5><a class="nav-link" href="">Пользователь - {{ user }}</a></h5>
+               </li>
+               {% endif %}
+           </ul>
+       </div>
+   </div>
+</nav>
+        <!-- Page content-->
+        <div class="container">
+            <div class="text" align="center">
+                <br>
+                <br>
+                {% block content %}
+                {% endblock content %}
+            </div>
+        </div>
+    </body>
+</html>

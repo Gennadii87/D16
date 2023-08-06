@@ -1,0 +1,38 @@
+{% extends 'flatpages/default.html' %}
+{% block content %}
+    <h2>Мои отклики</h2>
+    <form method="get" action="{% url 'comments' %}">
+        {{ form.as_p }}
+        <button type="submit">Применить фильтр</button>
+    </form>
+
+    {% for comment in comments %}
+        {% if request.user == comment.product.author.authorUser %}
+        <hr>
+            <div>
+                <strong>Имя пользователя: {{ comment.user.username }}</strong>  <h4>Название продукта: {{ comment.product.name }}</h4>
+                <p>{{ comment.text }}</p>
+                <small>{{ comment.created_at }}</small>
+
+                {% if not comment.accepted %}
+                    <form method="post" action="{% url 'accept_comment' comment.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Принять</button>
+                    </form>
+                {% endif %}
+
+                {% if not comment.accepted %}
+                    <form method="post" action="{% url 'delete_comment' comment.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Удалить</button>
+                    </form>
+                {% else %}
+                    <button type="button" disabled>Принять</button>
+                    <button type="submit" disabled>Удалить</button>
+                {% endif %}
+            </div>
+
+        {% endif %}
+    {% endfor %}
+
+{% endblock %}
