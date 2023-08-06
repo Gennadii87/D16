@@ -12,14 +12,14 @@ class Author(models.Model):
 
     def __str__(self):
         return f"{self.authorUser.username}"
-# Товар для нашей витрины
+# Товар для витрины
 class Product(models.Model):
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
 
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    icon = RichTextField(
+    icon = RichTextField( # поле для иконки
         verbose_name='Иконка',
         blank=True,  # поле необязательное, может быть пустым
     )
@@ -98,7 +98,6 @@ class Category(models.Model):
 class Subscription(models.Model):
 
     class Meta:
-
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'
 
@@ -117,7 +116,7 @@ class Subscription(models.Model):
     def __str__(self):
         return f'Список'
 
-class Comment(models.Model):
+class Comment(models.Model):      # модель для откликов 
 
     class Meta:
         verbose_name = 'Комментарий'
