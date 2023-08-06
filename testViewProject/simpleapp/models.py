@@ -9,9 +9,12 @@ from django.utils import timezone
 # Автор объявления
 class Author(models.Model):
     authorUser = models.OneToOneField(User, on_delete=models.CASCADE)
-
+    class Meta:
+        verbose_name = "Автор"
+        verbose_name_plural = "Авторы"
     def __str__(self):
         return f"{self.authorUser.username}"
+        
 # Товар для витрины
 class Product(models.Model):
     class Meta:
