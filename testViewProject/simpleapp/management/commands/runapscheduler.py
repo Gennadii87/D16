@@ -1,13 +1,9 @@
-from django.core.mail import send_mail
-
-import logging
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
-
+from django.core.mail import send_mail
 from django_apscheduler import util
 from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
-
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
@@ -26,7 +22,7 @@ def my_job():
         send_mail(
             "Самые дешевые товары",
             f"{text}.",
-            "gennadii87odintsov@yandex.ru",
+            "gennadii_s@inbox.ru",
             [user_email]
         )
 
