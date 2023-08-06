@@ -16,7 +16,7 @@ class ProductForm(forms.ModelForm):
         labels = {
             'icon': 'Иконка',
             'name': 'Наименование',
-            'description': 'Опимание',
+            'description': 'Описание',
             'category': 'Категория',
             'price': 'Цена',
             'quantity': 'Количество',
