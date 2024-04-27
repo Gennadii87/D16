@@ -70,12 +70,3 @@ def send_comment_accepted_notification(sender, instance, **kwargs):
 
 
 
-
-@receiver(post_save, sender=User)
-def create_author(sender, instance, created, **kwargs):
-    if created:
-        Author.objects.create(authorUser=instance)
-
-@receiver(post_save, sender=User)
-def save_author(sender, instance, **kwargs):
-    instance.author.save()

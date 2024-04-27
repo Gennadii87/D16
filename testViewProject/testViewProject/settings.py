@@ -159,8 +159,8 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-LOGIN_REDIRECT_URL = "/products"
-LOGOUT_REDIRECT_URL = "/products"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 ACCOUNT_FORMS = {"signup": "simpleapp.forms.CustomSignupForm"}
 

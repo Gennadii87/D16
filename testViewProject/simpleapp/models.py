@@ -8,7 +8,7 @@ from django.utils import timezone
 
 
 class Author(models.Model):
-    authorUser = models.OneToOneField(User, on_delete=models.CASCADE)
+    authorUser = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "Автор"
