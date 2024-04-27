@@ -1,10 +1,10 @@
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.mail import send_mail
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from .models import *
 
@@ -67,3 +67,15 @@ def send_comment_accepted_notification(sender, instance, **kwargs):
 
         recipient_list = [user.email]
         send_mail(subject, plain_message, None, recipient_list, html_message=html_message)
+
+
+
+
+@receiver(post_save, sender=User)
+def create_author(sender, instance, created, **kwargs):
+    if created:
+        Author.objects.create(authorUser=instance)
+
+@receiver(post_save, sender=User)
+def save_author(sender, instance, **kwargs):
+    instance.author.save()

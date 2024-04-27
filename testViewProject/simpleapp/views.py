@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from django.db.models import Exists, OuterRef
+from django.db.models import Exists, OuterRef, Max
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
