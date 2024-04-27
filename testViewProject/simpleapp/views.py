@@ -74,7 +74,7 @@ class ProductCreate(PermissionRequiredMixin, CreateView):
 
     def form_valid(self, form):
         post = form.save(commit=False)
-        post.author = self.request.user.author
+        post.author = self.request.user.authorUser
         post.save()
         return super().form_valid(form)
 
@@ -179,6 +179,7 @@ def accept_comment(request, comment_id):
         comment.save()
 
     return redirect('comments')
+
 
 @login_required
 def delete_comment(request, comment_id):
